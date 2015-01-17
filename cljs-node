@@ -1,0 +1,36 @@
+#!/usr/bin/node
+// vi:syntax=javascript
+
+if (process.argv.length < 3) {
+  process.stderr.write('ERROR: cljs-node takes one argument.\n');
+  process.exit(1);
+}
+
+if (process.argv.length > 3) {
+  process.stderr.write('INFO: extra arguments ignored.\n');
+}
+
+var
+  fs   = require('fs'),
+  path = require('path'),
+  goog = require('./dist/goog.js');
+
+// Load ClojureScript compiler.
+require('./dist/namespaces.js');
+goog.require('nodecljs');
+
+// Set print function.
+var
+  out = function (arg) { process.stdout.write(arg) },
+  err = function (arg) { process.stderr.write(arg) };
+cljs.core._STAR_out_STAR_        =
+  cljs.core._STAR_rtn_STAR_      =
+  cljs.core._STAR_print_fn_STAR_ = out;
+cljs.core._STAR_err_STAR_        = err;
+
+// Compile and launch source file.
+cljs.repl.evaluate_code(fs.readFileSync(process.argv[0]).toString())
+cljs.core.apply.call(
+  null,
+  cljs.core._STAR_main_cli_fn_STAR_,
+  cljs.core.drop.call(null, 3, process.argv));

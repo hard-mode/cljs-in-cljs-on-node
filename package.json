@@ -1,0 +1,11 @@
+{
+  "name": "node-cljs-on-cljs",
+  "version": "0.0.1",
+  "description": "No Java required. Precompiled ClojureScript-in-ClojureScript package.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
